@@ -4,6 +4,8 @@ import PTNdictionClient from '@/components/PTNdictionClient';
 
 
 
+export const revalidate = 3600; // ISR 1 hour
+
 export default async function HomePage() {
   let catalog: Awaited<ReturnType<typeof getPTNdictionCatalog>> | null = null;
   let errorMessage: string | null = null;

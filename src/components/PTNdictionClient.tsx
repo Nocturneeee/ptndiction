@@ -147,26 +147,57 @@ export default function PTNdictionClient({
     };
   }, [currentProgram]);
 
+  // Sanitasi & pembatasan rentang angka (clamping)
+  const clampNumber = (val: number, min: number, max: number) => {
+    if (isNaN(val)) return min;
+    return Math.min(Math.max(val, min), max);
+  };
+
+  // Validasi URL eksternal hanya protokol http/https
+  const isValidHttpUrl = (url?: string | null): boolean => {
+    if (!url) return false;
+    try {
+      const parsed = new URL(url);
+      return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
   // Kalkulasi Prediksi Personal Real-time
   const personalPrediction = useMemo(() => {
     if (!currentProgram) return null;
     const bm = currentProgram.benchmark;
 
     if (activePathway === 'SNBP') {
+      const rawAll = parseFloat(avgAllSubjects) || 0;
+      const rawSupp = parseFloat(avgSupportingSubject) || 0;
+      const rawTka = parseFloat(tkaScore) || 0;
+
       return predictPersonalSnbp(
         {
-          avgAllSubjects: parseFloat(avgAllSubjects) || 0,
-          avgSupportingSubject: parseFloat(avgSupportingSubject) || 0,
-          achievementBonus,
-          tkaScore: parseFloat(tkaScore) || 0,
+          avgAllSubjects: clampNumber(rawAll, 0, 100),
+          avgSupportingSubject: clampNumber(rawSupp, 0, 100),
+          achievementBonus: clampNumber(achievementBonus, 0, 3),
+          tkaScore: clampNumber(rawTka, 200, 800),
         },
         Number(bm.snbpBaseChance),
         Number(bm.snbpTargetReport)
       );
     }
 
+    const sanitizedSubtests: SubtestScores = {
+      PU: clampNumber(subtestInputs.PU ?? 0, 200, 1000),
+      PPU: clampNumber(subtestInputs.PPU ?? 0, 200, 1000),
+      PBM: clampNumber(subtestInputs.PBM ?? 0, 200, 1000),
+      PK: clampNumber(subtestInputs.PK ?? 0, 200, 1000),
+      LBI: clampNumber(subtestInputs.LBI ?? 0, 200, 1000),
+      LBE: clampNumber(subtestInputs.LBE ?? 0, 200, 1000),
+      PM: clampNumber(subtestInputs.PM ?? 0, 200, 1000),
+    };
+
     return predictPersonalSnbt(
-      subtestInputs,
+      sanitizedSubtests,
       weights,
       Number(bm.snbtBaseChance),
       bm.snbtTargetWeighted
@@ -1154,7 +1185,7 @@ export default function PTNdictionClient({
                 </div>
               </div>
 
-              {university.pmbUrl && (
+              {university.pmbUrl && isValidHttpUrl(university.pmbUrl) && (
                 <div className="mt-4 border-t border-slate-100 pt-3.5">
                   <p className="text-xs text-slate-500">Laman PMB {university.name}</p>
                   <a
