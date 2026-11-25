@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ptndiction_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ptndiction
+      POSTGRES_PASSWORD: ptndiction_password
+      POSTGRES_DB: ptndiction
+    ports:
+      - "5433:5432"
+    volumes:
+      - ptndiction_pgdata:/var/lib/postgresql/data
+
+volumes:
+  ptndiction_pgdata:
