@@ -44,26 +44,26 @@ const SUBTEST_META: { key: SubtestKey; name: string; badgeClass: string }[] = [
 function getTightnessBadgeStyle(label: string) {
   switch (label) {
     case 'Longgar':
-      return 'bg-emerald-100 text-emerald-800 border-emerald-200';
+      return 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
     case 'Sedang':
-      return 'bg-amber-100 text-amber-800 border-amber-200';
+      return 'bg-amber-500/15 text-amber-400 border border-amber-500/30';
     case 'Ketat':
-      return 'bg-orange-100 text-orange-800 border-orange-200';
+      return 'bg-orange-500/15 text-orange-400 border border-orange-500/30';
     default:
-      return 'bg-rose-100 text-rose-800 border-rose-200';
+      return 'bg-rose-500/15 text-rose-400 border border-rose-500/30';
   }
 }
 
 function getStatusBannerStyle(status: string) {
   switch (status) {
     case 'Sangat Kompetitif':
-      return 'from-emerald-600 to-teal-700';
+      return 'bg-gradient-to-br from-emerald-950 via-emerald-900/90 to-zinc-900 border border-emerald-500/40 text-emerald-100';
     case 'Kompetitif':
-      return 'from-blue-600 to-indigo-700';
+      return 'bg-gradient-to-br from-emerald-950/80 via-teal-950/80 to-zinc-900 border border-emerald-600/35 text-emerald-100';
     case 'Cukup Berpeluang':
-      return 'from-amber-500 to-orange-600';
+      return 'bg-gradient-to-br from-amber-950 via-orange-950/90 to-zinc-900 border border-amber-500/40 text-amber-100';
     default:
-      return 'from-rose-600 to-red-700';
+      return 'bg-gradient-to-br from-rose-950 via-red-950/90 to-zinc-900 border border-rose-500/40 text-rose-100';
   }
 }
 

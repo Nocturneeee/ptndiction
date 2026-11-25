@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className={`${plusJakarta.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
+      <body className="min-h-screen bg-neutral-950 font-sans text-zinc-100 antialiased selection:bg-emerald-500 selection:text-neutral-950">
         {children}
       </body>
     </html>
