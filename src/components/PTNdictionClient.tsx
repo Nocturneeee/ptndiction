@@ -277,37 +277,40 @@ export default function PTNdictionClient({
   return (
     <div className="min-h-screen pb-16">
       {/* Top Navbar */}
-      <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
-              <GraduationCap className="h-5 w-5" />
+      <div className="sticky top-4 z-45 mx-auto max-w-6xl px-4 sm:px-6">
+        <header className="w-full rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg shadow-black/20">
+          <div className="flex items-center justify-between px-4 py-3 sm:px-6">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
+                <GraduationCap className="h-5 w-5" />
+              </div>
+              <div>
+                <span className="text-lg font-extrabold tracking-tight text-slate-900">
+                  PTN<span className="text-blue-600">diction</span>
+                </span>
+                <p className="hidden text-[11px] font-medium text-slate-500 sm:block">
+                  Rasionalisasi & Analitik SNPMB Indonesia
+                </p>
+              </div>
             </div>
-            <div>
-              <span className="text-lg font-extrabold tracking-tight text-slate-900">
-                PTN<span className="text-blue-600">diction</span>
-              </span>
-              <p className="hidden text-[11px] font-medium text-slate-500 sm:block">
-                Rasionalisasi & Analitik SNPMB Indonesia
-              </p>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              100% Gratis • Data 2021–2026
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                100% Gratis • Data 2021–2026
+              </span>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
       <main className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* KOLOM KIRI: KALKULATOR INPUT RASIONALISASI */}
           <aside className="lg:col-span-5">
-            <div className="sticky top-20 space-y-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3.5">
+            <div className="sticky top-24 flex flex-col rounded-2xl border border-slate-200 bg-white shadow-sm lg:max-h-[calc(100vh-7rem)]">
+              {/* Header Kartu Fixed */}
+              <div className="flex shrink-0 items-center justify-between border-b border-slate-100 px-5 pt-5 pb-3.5">
                 <div className="flex items-center gap-2">
                   <Calculator className="h-5 w-5 text-blue-600" />
                   <h2 className="text-base font-bold text-slate-900">
@@ -319,8 +322,10 @@ export default function PTNdictionClient({
                 </span>
               </div>
 
-              {/* Pilih Perguruan Tinggi */}
-              <div className="space-y-3">
+              {/* Form Content Scrollable di Desktop */}
+              <div className="space-y-5 px-5 py-4 lg:overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 hover:[&::-webkit-scrollbar-thumb]:bg-slate-400">
+                {/* Pilih Perguruan Tinggi */}
+                <div className="space-y-3">
                 <div>
                   <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-500">
                     1. Pilih Perguruan Tinggi Negeri
@@ -527,6 +532,7 @@ export default function PTNdictionClient({
                   </div>
                 </div>
               )}
+              </div>
             </div>
           </aside>
 
