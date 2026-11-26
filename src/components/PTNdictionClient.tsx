@@ -25,6 +25,7 @@ import {
   type SubtestWeights,
 } from '@/lib/scoring-engine';
 import SubtestRadarChart from './SubtestRadarChart';
+import SearchableSelect from './SearchableSelect';
 
 interface PTNdictionClientProps {
   universities: University[];
@@ -308,9 +309,9 @@ export default function PTNdictionClient({
   return (
     <div className="min-h-screen pb-16">
       {/* Top Navbar */}
-      <div className="sticky top-4 z-45 mx-auto max-w-6xl px-4 sm:px-6">
-        <header className="w-full rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200 shadow-lg shadow-black/20">
-          <div className="flex items-center justify-between px-4 py-3 sm:px-6">
+      <div className="sticky top-0 z-40 w-full bg-neutral-950 pt-4 pb-2">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <header className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3.5 shadow-lg shadow-black/40 sm:px-6">
             <div className="flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
                 <GraduationCap className="h-5 w-5" />
@@ -331,17 +332,17 @@ export default function PTNdictionClient({
                 100% Gratis • Data 2021–2026
               </span>
             </div>
-          </div>
-        </header>
+          </header>
+        </div>
       </div>
 
-      <main className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
+      <main className="mx-auto max-w-6xl px-4 pt-4 sm:px-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
           {/* KOLOM KIRI: KALKULATOR INPUT RASIONALISASI */}
           <aside className="lg:col-span-5">
-            <div className="sticky top-24 flex flex-col rounded-2xl border border-slate-200 bg-white shadow-sm lg:max-h-[calc(100vh-7rem)]">
+            <div className="sticky top-24 flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:max-h-[calc(100vh-7rem)]">
               {/* Header Kartu Fixed */}
-              <div className="flex shrink-0 items-center justify-between border-b border-slate-100 px-5 pt-5 pb-3.5">
+              <div className="flex shrink-0 items-center justify-between border-b border-slate-100 px-5 py-4">
                 <div className="flex items-center gap-2">
                   <Calculator className="h-5 w-5 text-blue-600" />
                   <h2 className="text-base font-bold text-slate-900">
@@ -353,43 +354,38 @@ export default function PTNdictionClient({
                 </span>
               </div>
 
-              {/* Form Content Scrollable di Desktop */}
-              <div className="space-y-5 px-5 py-4 lg:overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 hover:[&::-webkit-scrollbar-thumb]:bg-slate-400">
+              {/* Form Content Area - semua komponen dalam satu container padding */}
+              <div className="flex-1 space-y-4 px-5 py-5 pb-6 lg:overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300">
                 {/* Pilih Perguruan Tinggi */}
                 <div className="space-y-3">
-                <div>
-                  <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <label className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-500">
                     1. Pilih Perguruan Tinggi Negeri
                   </label>
-                  <select
+                  <SearchableSelect
                     value={selectedUnivId}
-                    onChange={(e) => handleUniversityChange(Number(e.target.value))}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
-                  >
-                    {universities.map((u) => (
-                      <option key={u.id} value={u.id}>
-                        {u.name} ({u.shortName})
-                      </option>
-                    ))}
-                  </select>
+                    options={universities.map((u) => ({
+                      value: u.id,
+                      label: u.name,
+                      sublabel: u.province,
+                    }))}
+                    onSelect={(id) => handleUniversityChange(Number(id))}
+                  />
                 </div>
 
                 {/* Pilih Program Studi */}
                 <div>
-                  <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <label className="mb-1.5 block text-[11px] font-bold uppercase tracking-wider text-slate-500">
                     2. Pilih Program Studi
                   </label>
-                  <select
-                    value={currentProgram.id}
-                    onChange={(e) => setSelectedProgramId(Number(e.target.value))}
-                    className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm font-medium text-slate-900 transition focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600/20"
-                  >
-                    {availablePrograms.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name} ({p.degree})
-                      </option>
-                    ))}
-                  </select>
+                  <SearchableSelect
+                    value={selectedProgramId}
+                    options={availablePrograms.map((p) => ({
+                      value: p.id,
+                      label: `${p.name} (${p.degree})`,
+                      sublabel: `Kode: ${p.snpmbCode}`,
+                    }))}
+                    onSelect={(id) => setSelectedProgramId(Number(id))}
+                  />
                 </div>
 
                 {/* Switcher Jalur Seleksi */}
@@ -414,11 +410,10 @@ export default function PTNdictionClient({
                     ))}
                   </div>
                 </div>
-              </div>
 
-              {/* Form Dinamis SNBP vs SNBT */}
-              {activePathway === 'SNBP' ? (
-                <div className="space-y-3.5 border-t border-slate-100 pt-4">
+                {/* Form Dinamis SNBP vs SNBT */}
+                {activePathway === 'SNBP' ? (
+                  <div className="space-y-3.5 border-t border-slate-100 pt-4">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-700">
                       Input Nilai Rapor (Sem 1–5)
