@@ -41,6 +41,15 @@ async function importBulk() {
     throw new Error('File data/snpmb-full.json kosong.');
   }
 
+  if (records.length > 50) {
+    console.log('Menghapus data sampel/lama dari database...');
+    await db.delete(programBenchmarks);
+    await db.delete(admissionHistories);
+    await db.delete(studyPrograms);
+    await db.delete(universities);
+    console.log('Data lama berhasil dibersihkan.');
+  }
+
   console.log(`Membaca ${records.length} program studi dari ${inputPath}...`);
 
   // 1. Upsert Major Groups (10 Rumpun Keilmuan)
@@ -272,7 +281,7 @@ async function importBulk() {
       snbpBaseChance: item.snbpStats.baseChance.toFixed(2),
       snbpTightnessLabel: item.snbpStats.tightnessLabel,
       snbpSeatRatio: item.snbpStats.seatRatio,
-      snbp3yrTrendPct: item.snbpStats.threeYearTrendPct.toFixed(2),
+      snbp3yrTrendPct: Math.max(-999.99, Math.min(999.99, item.snbpStats.threeYearTrendPct)).toFixed(2),
       snbp3yrAvgChance: item.snbpStats.threeYearAvgChance.toFixed(2),
       snbpNationalRank: snbpRank.rank,
       snbpNationalTotal: snbpRank.total,
@@ -284,7 +293,7 @@ async function importBulk() {
       snbtBaseChance: item.snbtStats.baseChance.toFixed(2),
       snbtTightnessLabel: item.snbtStats.tightnessLabel,
       snbtSeatRatio: item.snbtStats.seatRatio,
-      snbt3yrTrendPct: item.snbtStats.threeYearTrendPct.toFixed(2),
+      snbt3yrTrendPct: Math.max(-999.99, Math.min(999.99, item.snbtStats.threeYearTrendPct)).toFixed(2),
       snbt3yrAvgChance: item.snbtStats.threeYearAvgChance.toFixed(2),
       snbtNationalRank: snbtRank.rank,
       snbtNationalTotal: snbtRank.total,
