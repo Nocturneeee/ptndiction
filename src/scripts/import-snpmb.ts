@@ -86,7 +86,11 @@ async function importBulk() {
         weightLbe: sql`excluded.weight_lbe`,
         weightPm: sql`excluded.weight_pm`,
         prioritySubtests: sql`excluded.priority_subtests`,
+        priorityReason: sql`excluded.priority_reason`,
         supportingSubjects: sql`excluded.supporting_subjects`,
+        studentFit: sql`excluded.student_fit`,
+        careerProspects: sql`excluded.career_prospects`,
+        sampleCourses: sql`excluded.sample_courses`,
       },
     })
     .returning();
