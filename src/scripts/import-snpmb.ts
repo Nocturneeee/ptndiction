@@ -298,7 +298,7 @@ async function importBulk() {
       snbtNationalRank: snbtRank.rank,
       snbtNationalTotal: snbtRank.total,
       snbtTargetWeighted: item.snbtTarget.targetWeighted,
-      snbtTargetSubtests: item.snbtTarget.targetSubtests,
+      snbtTargetSubtests: item.snbtTarget.targetSubtests ?? {},
     };
   });
 

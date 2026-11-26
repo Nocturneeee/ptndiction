@@ -75,16 +75,20 @@ export function calculateHistoricalStats(
   if (recent3Pairs.length >= 2) {
     const firstApplicants = recent3Pairs[0].applicants!;
     const lastApplicants = recent3Pairs.at(-1)!.applicants!;
-    threeYearTrendPct = Number((((lastApplicants - firstApplicants) / firstApplicants) * 100).toFixed(2));
+    if (firstApplicants > 0) {
+      const rawTrend = (((lastApplicants - firstApplicants) / firstApplicants) * 100);
+      threeYearTrendPct = Number(clamp(rawTrend, -999.99, 999.99).toFixed(2));
+    }
   }
 
   // Rata-rata peluang 3 tahun terakhir
   let threeYearAvgChance = baseChance;
   if (recent3Pairs.length > 0) {
     const sumChances = recent3Pairs.reduce((acc, item) => {
-      return acc + (item.quota! / item.applicants!) * 100;
+      const chance = (item.quota! / Math.max(1, item.applicants!)) * 100;
+      return acc + chance;
     }, 0);
-    threeYearAvgChance = Number((sumChances / recent3Pairs.length).toFixed(2));
+    threeYearAvgChance = Number(clamp(sumChances / recent3Pairs.length, 0.1, 999.99).toFixed(2));
   }
 
   return {
